@@ -50,13 +50,13 @@
                 cleanInputs();
                 alert("Transaccion exitosa");
             } else {
-                alert("ya existe ese id de alumno");
+                alert("Ya existe un club con ese ID");
             }
 
         } else {
             alert("error", "llena los campos");
         }
-
+        console.log(listaClubes);
         document.getElementById("clubId").disabled = false;
     }
 
@@ -119,13 +119,24 @@
     }
 
     function readTable2(league) {
-        document.getElementById("clubesFilter").innerHTML = '';
-        const listaClubes = JSON.parse(localStorage.getItem("clubes"));
-        var filteredClubs = listaClubes.filter(club => club.clubLeague = league);
-        if (filteredClubs) {
-            filteredClubs.forEach((club) => updateTable2(club));
-        }
+        // document.getElementById("clubesFilter").innerHTML = '';
+        // const listaClubes = JSON.parse(localStorage.getItem("clubes"));
+        // // console.log(listaClubes);
 
+        // var filteredClubs = listaClubes.filter(club => club.clubLeague = league);
+        // if (filteredClubs) {
+        //     filteredClubs.forEach((club) => updateTable2(club));
+        // }
+        document.getElementById("clubesFilter").innerHTML='';
+      
+        const lista_Clubes = JSON.parse(localStorage.getItem("clubes"));
+        var clubesFiltered=lista_Clubes.filter(club=>club.clubLeague==league);
+        if(clubesFiltered)
+        {
+            clubesFiltered.forEach((club)=>updateTable2(club));
+        }
+        //console.log(alumnosC)
+    
     }
 
     function updateTable2(club) {
