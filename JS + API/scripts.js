@@ -1,8 +1,9 @@
 async function leer() {
     var cityName = document.getElementById("cityName").value;
     let key = '5b24986722ac9e8a3b7b15a427ffed7f';
-    let URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${key}&units=metric&lang=sp`
+    let URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${key}&units=metric&lang=sp`;
     let regex = /^[a-zA-Z][a-zA-Z ]*$/;
+    console.log(URL);
     if (regex.test(cityName) == true) { //Valido que el nombre cumpla con la expresion regular para texto
         fetch(URL)
             .then(data => {
