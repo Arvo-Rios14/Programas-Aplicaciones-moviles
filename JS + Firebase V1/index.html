@@ -1,0 +1,127 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="estilos.css">
+
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.2/firebase-database.js"></script>
+
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script src="scripts.js"></script>
+</head>
+
+<body onload="read()">
+    <div id="contenedor">
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row">
+                    <span class="mdl-layout-title">JS + FIREBASE</span>
+                </div>
+            </header>
+            <div class="mdl-layout__drawer">
+                <span class="mdl-layout-title">Enlaces Rápidos</span>
+                <nav class="mdl-navigation">
+                    <a class="mdl-navigation__link" href="">Equipos Deportivos</a>
+                    <a class="mdl-navigation__link" href="consultas.html">Consultas</a>
+                </nav>
+            </div>
+            <!--#region CONTENIDO DE LA PAGINA  -->
+            <main class="mdl-layout__content">
+                <div class="page-content">
+                    <div id="header">
+                    </div>
+                    <div id="divForm" class="cardFormulario card mdl-card mdl-shadow--2dp">
+                        <h3 style="margin-inline: auto;">Formulario</h3>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label divInput">
+                            <input class="mdl-textfield__input" type="text" id="clubId">
+                            <label class="mdl-textfield__label" for="clubId">Código del club</label>
+                            <span class="mdl-textfield__error">Ingresa solo caracteres de texto.</span>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label divInput">
+                            <input class="mdl-textfield__input" type="text" id="clubName">
+                            <label class="mdl-textfield__label" for="clubName">Nombre del club</label>
+                            <span class="mdl-textfield__error">Ingresa solo caracteres de texto.</span>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield getmdl-select divInput">
+                            <input type="text" value="" class="mdl-textfield__input" id="clubLeague" readonly>
+                            <label for="clubLeague" class="mdl-textfield__label" id="labelCL">Liga deportiva</label>
+                            <ul for="clubLeague" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                                <li class="mdl-menu__item" data-val="DEU" onclick="setLeagueValue('Liga MX')">Liga MX
+                                    (MX)</li>
+                                <li class="mdl-menu__item" data-val="BLR" onclick="setLeagueValue('Premier League')">
+                                    Premier League (ENG)</li>
+                                <li class="mdl-menu__item" data-val="RUS" onclick="setLeagueValue('Liga Española')">Liga
+                                    Española (ES)</li>
+                            </ul>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label divInput">
+                            <input class="mdl-textfield__input" type="text" id="stadiumName">
+                            <label class="mdl-textfield__label" for="stadiumName">Nombre del estadio</label>
+                            <span class="mdl-textfield__error">Ingresa solo caracteres de texto.</span>
+                        </div>
+                        <br>
+                        <div>
+                            <div style="float: left; width: 50%; text-align: right;">
+                                <button onclick="createClub()" style="margin-right: 10px;  background-color: 2449c2; "
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                                    Enviar
+                                </button>
+                            </div>
+                            <div style="float: right; width: 50%; text-align: left;">
+                                <button onclick="cleanInputs()" style="margin-left:10px;"
+                                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                                    Limpiar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divTable" class="cardTable card mdl-card mdl-shadow--2dp">
+                        <div class="mdc-data-table">
+                            <div class="mdc-data-table__table-container">
+                                <table class="mdc-data-table__table" aria-label="Dessert calories">
+                                    <thead>
+                                        <tr class="mdc-data-table__header-row">
+                                            <th class="mdc-data-table__header-cell" role="columnheader" scope="col"
+                                                style="width: 16%;text-align: center;">
+                                                <b> Código del club</b></strong></th>
+                                            <th class="mdc-data-table__header-cell" role="columnheader" scope="col"
+                                                style="width: 16%;text-align: center;">
+                                                <b> Nombre del club</b></strong></th>
+                                            <th class="mdc-data-table__header-cell" role="columnheader" scope="col"
+                                                style="width: 16%;text-align: center;">
+                                                <b>Nombre de Estadio</b></strong></th>
+                                            <th class="mdc-data-table__header-cell" role="columnheader" scope="col"
+                                                style="width: 16%;text-align: center;">
+                                                <b> Código del club</b></strong></th>
+                                            <th class="mdc-data-table__header-cell" role="columnheader" scope="col"
+                                                style="width: 16%;text-align: center;">
+                                            </th>
+                                            <th class="mdc-data-table__header-cell" role="columnheader" scope="col"
+                                                style="width: 16%;text-align: center;">
+                                            </th>
+                                            <th class="mdc-data-table__header-cell" role="columnheader" scope="col"
+                                                style="width: 16%;text-align: center;">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="mdc-data-table__content" id="clubesTable">
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!--#endregion -->
+        </div>
+    </div>
+</body>
+
+</html>
